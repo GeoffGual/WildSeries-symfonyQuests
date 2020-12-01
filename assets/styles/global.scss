@@ -1,2 +1,7 @@
 $primary-color: #0FF0BA;
 $secondary: #D1F00F;
+$font-family-primary: 'Nerko One', cursive;
+
+body{
+  font-family: $font-family-primary;
+}

@@ -1,4 +1,18 @@
 .navbar {
   background-color: $primary-color;
+  .nav-item {
+    border-radius: 10px;
+    font-size: 1.3rem;
+    &:hover {
+      background-color: $secondary;
+    }
+  }
+  .navbar-nav .nav-link{
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+  .connexion{
+    background-color: $secondary;
+  }
 
 }
