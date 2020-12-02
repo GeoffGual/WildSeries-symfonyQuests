@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1> {{ program.title }} : Saison {{ season.number }}</h1>
+    <p>({{ season.year }})</p><br>
+
+    <h2>Description :</h2>
+    <div>{{ season.description }}</div><br>
+    <h2>Liste des épisodes :</h2>
+    {% for episode in episodes %}
+        <ul>
+            <li>
+                Episode {{ episode.number }} : <i>{{ episode.title }}</i>
+            </li>
+        </ul>
+    {% else %}
+        Pas d'épisode disponible actuellement.
+    {% endfor %}
+
+{% endblock %}
