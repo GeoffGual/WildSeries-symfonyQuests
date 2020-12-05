@@ -1,21 +1,31 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <div class="media">
+        <img class="align-self-start mr-3" src="{{program.poster}}" alt="{{ program.title }} poster">
+        <div class="media-body">
+            <h1> {{ program.title }} : Saison {{ season.number }}</h1>
+            <p>({{ season.year }})</p><br>
 
-    <h1> {{ program.title }} : Saison {{ season.number }}</h1>
-    <p>({{ season.year }})</p><br>
+            <h2>Description :</h2>
+            <div>{{ season.description }}</div><br>
+            <h2>Liste des épisodes :</h2>
+            {% for episode in episodes %}
+                <ul>
+                    <li>
+                        <a href="{{ path('program_episode_show', {programId: program.id, seasonId: season.id, episodeId: episode.id}) }}">Episode {{ episode.number }} : <i>{{ episode.title }}</i></a>
+                    </li>
+                </ul>
+            {% else %}
+                Pas d'épisode disponible actuellement.
+            {% endfor %}
 
-    <h2>Description :</h2>
-    <div>{{ season.description }}</div><br>
-    <h2>Liste des épisodes :</h2>
-    {% for episode in episodes %}
-        <ul>
-            <li>
-                Episode {{ episode.number }} : <i>{{ episode.title }}</i>
-            </li>
-        </ul>
-    {% else %}
-        Pas d'épisode disponible actuellement.
-    {% endfor %}
+            <br>
+            <div>
+                <a href={{ path('program_show', {program: program.id}) }}>Retour à la page saisons</a>
+            </div>
+
+        </div>
+    </div>
 
 {% endblock %}

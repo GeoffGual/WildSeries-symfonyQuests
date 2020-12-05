@@ -11,7 +11,7 @@
             <li>
                 <h2> {{  program.id }} . {{ program.title }}</h2>
                 <p>Résumé : {{ program.summary }}</p>
-                <a href="{{ path("program_show", { id: program.id }) }}">Voir la fiche</a>
+                <a href="{{ path("program_show", { program: program.id }) }}">Voir la fiche</a>
             </li>
         {% endfor %}
     </ul>
