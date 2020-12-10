@@ -16,6 +16,18 @@
             <p> Pas de saison disponible</p>
             {% endfor %}
             <p>Catégorie : {{ program.category.name }}</p>
+
+            <br>
+
+            <strong>Acteurs :</strong>
+            <ul>
+                {% for actor in program.actors %}
+                    <li>{{ actor.name }} </li>
+                {% else %}
+                    <li>Aucun acteur pour cette série</li>
+                {% endfor %}
+            </ul>
+
             <br>
 
             <a href="{{ path('program_index') }}">
