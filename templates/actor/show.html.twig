@@ -6,7 +6,7 @@
     <h3>Séries :</h3>
     <ul>
         {%  for program in actor.programs  %}
-            <li>{{ program.title }}</li>
+            <a href="{{ path('program_show', {program: program.id}) }}"><li>{{ program.title }}</li></a>
         {% else %}
             <p>Pas de série renseignée</p>
         {% endfor %}
