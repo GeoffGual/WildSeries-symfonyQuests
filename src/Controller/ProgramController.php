@@ -9,11 +9,14 @@ use App\Entity\Season;
 use App\Form\ProgramType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use App\Form\CategoryType;
 use Symfony\Component\HttpFoundation\Request;
 use App\Service\slugify;
+
 
 
 /**
@@ -27,9 +30,9 @@ class ProgramController extends AbstractController
      */
     public function index(): Response
     {
-        $programs = $this->getDoctrine()
-            ->getRepository(Program::class)
-            ->findAll();
+            $programs = $this->getDoctrine()
+                ->getRepository(Program::class)
+                ->findAll();
 
         return $this->render('program/index.html.twig', [
                 'programs' => $programs,
@@ -41,7 +44,7 @@ class ProgramController extends AbstractController
      *
      * @Route("/new", name="new")
      */
-    public function new(Request $request, slugify $slugify) : Response
+    public function new(Request $request, slugify $slugify, MailerInterface $mailer) : Response
     {
 
         $program = new Program();
@@ -54,6 +57,14 @@ class ProgramController extends AbstractController
             $program->setSlug($slug);
             $entityManager->persist($program);
             $entityManager->flush();
+
+            $email = (new Email())
+                ->from($this->getParameter('mailer_from'))
+                ->to('to@example.com')
+                ->subject('Une nouvelle série vient d\'être publiée !')
+                ->html($this->renderView('program/new_program_email.html.twig', ['program' => $program]));
+
+            $mailer->send($email);
 
             return $this->redirectToRoute('program_index');
         }
