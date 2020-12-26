@@ -18,7 +18,29 @@
         </div>
         </div>
     </div>
+    {% if app.user %}
+    <div class="media-body">
+        <h3>Ajouter un commentaire</h3>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type='submit' value='Ajouter un commentaire'>
+        {{ form_end(form) }}
+    </div>
+    {% endif %}
+    <div>
+        <h3>Commentaires</h3>
+        {% for comment in episode.comments %}
+        <ul>
+            <li>{{ comment.author.email }} - {{ comment.rate }}/ 5 <br>
+                <i>{{ comment.comment }}</i>
+            </li>
+        </ul>
+            {% else %}
+                Pas de commentaire pour le moment
+            {% endfor %}
 
+        </ul>
+    </div>
 
 
 {% endblock %}

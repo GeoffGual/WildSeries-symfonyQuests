@@ -2,7 +2,11 @@
 
 namespace App\Controller;
 
+
+use App\Entity\User;
+use App\Entity\Comment;
 use App\Entity\Episode;
+use App\Form\CommentType;
 use App\Form\EpisodeType;
 use App\Repository\EpisodeRepository;
 use App\Service\slugify;
@@ -15,12 +19,12 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
- * @Route("/episode")
+ * @Route("/episode", name="episode_")
  */
 class EpisodeController extends AbstractController
 {
     /**
-     * @Route("/", name="episode_index", methods={"GET"})
+     * @Route("/", name="index", methods={"GET"})
      */
     public function index(EpisodeRepository $episodeRepository): Response
     {
@@ -30,7 +34,7 @@ class EpisodeController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="episode_new", methods={"GET","POST"})
+     * @Route("/new", name="new", methods={"GET","POST"})
      */
     public function new(Request $request, slugify $slugify, MailerInterface $mailer): Response
     {
@@ -63,18 +67,19 @@ class EpisodeController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="episode_show", methods={"GET"})
+     * @Route("/{id}", name="show", methods={"GET"})
      * @ParamConverter("episode", class="App\Entity\Episode", options={"mapping": {"id": "slug"}})
      */
-    public function show(Episode $episode): Response
+    public function show(Episode $episode, Request $request): Response
     {
+
         return $this->render('episode/show.html.twig', [
             'episode' => $episode,
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="episode_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
      * @ParamConverter("episode", class="App\Entity\Episode", options={"mapping": {"id": "slug"}})
      */
     public function edit(Request $request, Episode $episode): Response
@@ -95,7 +100,7 @@ class EpisodeController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="episode_delete", methods={"DELETE"})
+     * @Route("/{id}", name="delete", methods={"DELETE"})
      * @ParamConverter("episode", class="App\Entity\Episode", options={"mapping": {"id": "slug"}})
      */
     public function delete(Request $request, Episode $episode): Response
