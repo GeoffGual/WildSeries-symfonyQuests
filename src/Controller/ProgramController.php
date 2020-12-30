@@ -19,8 +19,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use App\Form\CategoryType;
 use Symfony\Component\HttpFoundation\Request;
 use App\Service\slugify;
-
-
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/programs", name="program_")
@@ -58,6 +58,7 @@ class ProgramController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $slug = $slugify->generate($program->getTitle());
             $program->setSlug($slug);
+            $program->setOwner($this->getUser());
             $entityManager->persist($program);
             $entityManager->flush();
 
@@ -85,7 +86,7 @@ class ProgramController extends AbstractController
 
         if(!$program){
             throw $this->createNotFoundException(
-                'No program with id : '.$program.' found in program\'s table.'
+                'No program : '. $program .' found in program\'s table.'
             );
         }
 
@@ -142,6 +143,7 @@ class ProgramController extends AbstractController
             $entityManager->flush();
 
         }
+
         return $this->render('program/episode_show.html.twig',[
             'program' => $program,
             'season'  => $season,
@@ -149,6 +151,30 @@ class ProgramController extends AbstractController
             'form'    => $formComment->createView()
 
         ]);
+    }
+
+    /**
+     * @Route("/{slug}/edit", name="edit", methods={"GET","POST"})
+     */
+    public function edit(Request $request, Program $program): Response
+    {
+        if (!($this->getUser() == $program->getOwner())) {
+            throw new AccessDeniedException('Only the owner can edit the program!');
+        }
+        $form = $this->createForm(ProgramType::class, $program);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('program_index');
+        }
+
+        return $this->render('program/edit.html.twig', [
+            'program'=> $program,
+            'form' => $form->createView(),
+        ]);
+
     }
 
 }

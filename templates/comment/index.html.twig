@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}comment index{% endblock %}
+
+{% block body %}
+    <h1>Comment index</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Author</th>
+            <th>Episode</th>
+            <th>Comment</th>
+            <th>Rate</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for comment in comments %}
+            <tr>
+                <td>{{ comment.id }}</td>
+                <td>{{ comment.author.email }}</td>
+                <td>{{ comment.episode.id }}</td>
+                <td>{{ comment.comment }}</td>
+                <td>{{ comment.rate }}</td>
+                <td>
+                    {{ include('comment/_delete_form.html.twig') }}
+                    {{ include('comment/edit.html.twig') }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('episode_new') }}">Create new</a>
+{% endblock %}

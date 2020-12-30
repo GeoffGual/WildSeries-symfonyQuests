@@ -21,6 +21,7 @@ class UserFixtures extends Fixture
         $contributor = new User();
         $contributor->setEmail('contributor@monsite.com');
         $contributor->setRoles(['ROLE_CONTRIBUTOR']);
+        $this->addReference('user_0', $contributor);
         $contributor->setPassword($this->passwordEncoder->encodePassword(
             $contributor,
             'contributorpassword'
@@ -32,6 +33,7 @@ class UserFixtures extends Fixture
         $admin = new User();
         $admin->setEmail('admin@monsite.com');
         $admin->setRoles(['ROLE_ADMIN']);
+        $this->addReference('user_1', $admin);
         $admin->setPassword($this->passwordEncoder->encodePassword(
             $admin,
             'adminpassword'

@@ -1,13 +1,16 @@
 <?php
 namespace App\DataFixtures;
 
+use App\Entity\User;
 use App\Entity\Category;
 use App\Entity\Program;
 use App\Service\slugify;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use phpDocumentor\Reflection\Types\This;
 
-class ProgramFixtures extends Fixture
+class ProgramFixtures extends Fixture implements DependentFixtureInterface
 {
     const PROGRAMS = [
         'Walking Dead' => [
@@ -51,6 +54,7 @@ class ProgramFixtures extends Fixture
             $program->setTitle($title);
             $program->setSummary($data['summary']);
             $program->setCategory($this->getReference('category_' . rand(0,3)));
+            $program->setOwner($this->getReference('user_'. rand(0,1)));
             $slug = $this->slugify->generate($program->getTitle());
             $program->setSlug($slug);
             $this->addReference('program_' . $i, $program);
@@ -58,5 +62,9 @@ class ProgramFixtures extends Fixture
             $i++;
         }
         $manager->flush();
+    }
+    public function getDependencies()
+    {
+        return [UserFixtures::class];
     }
 }

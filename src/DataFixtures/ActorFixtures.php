@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Form\ProgramType;
 use Faker;
 use App\Entity\Actor;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -13,7 +14,7 @@ class ActorFixtures extends Fixture implements DependentFixtureInterface
 {
     public function getDependencies()
     {
-        return [CategoryFixtures::class];
+        return [CategoryFixtures::class, ProgramFixtures::class];
     }
     public function load(ObjectManager $manager)
     {
