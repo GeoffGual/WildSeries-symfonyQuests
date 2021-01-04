@@ -1,8 +1,21 @@
 $primary-color: #0FF0BA;
 $secondary: #D1F00F;
-$font-family-primary: 'Nerko One', cursive;
+$font-family-primary:'Audiowide', cursive;
 
 body{
   font-family: $font-family-primary;
   font-size: 1rem;
+  h1 {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  h2, h3{
+    padding-top: 7px;
+    padding-bottom: 7px;
+  }
+  h4, h5{
+     padding-top: 5px;
+     padding-bottom: 5px;
+   }
+
 }

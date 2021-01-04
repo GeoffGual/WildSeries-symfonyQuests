@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProfilController!{% endblock %}
+
+{% block body %}
+
+
+    <div class="container-fluid">
+        <h2>Mon Compte</h2>
+        <h3>{{ user.email }} </h3>
+        <h4>Mes Séries</h4>
+        <ul>
+        {% for program in user.programs %}
+            <li>
+             {{ program.title }}  |   <a href="{{ path('program_show', {program: program.slug}) }}">Voir la série</a>
+            </li>
+            {% else %}
+            <p>Pas de série ajoutée pour le moment</p>
+        {% endfor %}
+        </ul>
+        <h4>Mes Commentaires</h4>
+        <ul>
+            {% for comment in user.comments %}
+                <li>
+                    {{ comment.episode.title }} | {{ comment.episode.season.program.title }} | <a href="{{ path('program_episode_show', {programId: comment.episode.season.program.slug, seasonId: comment.episode.season.id, episodeId: comment.episode.slug}) }}">Voir l'épisode</a><br>
+                    Note:  {{ comment.rate }} / 5 <br>
+                    Commentaire : "{{ comment.comment }}"
+                </li>
+            {% else %}
+                <p>Pas de série ajoutée pour le moment</p>
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endblock %}

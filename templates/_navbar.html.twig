@@ -21,8 +21,10 @@
             </li>
         </ul>
         {% if app.user %}
-            {{ app.user.email }}
             <ul  class="navbar-nav my-2 my-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('profil') }}">Mon Compte</a>
+                </li>
                 <li class="nav-item connexion">
                     <a class="nav-link " href="{{ path('app_logout') }}"> <i class="fas fa-user"></i> Déconnexion</a>
                 </li>

@@ -21,10 +21,16 @@ security:
             guard:
                 authenticators:
                     - App\Security\LoginFormAuthenticator
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800 # 1 week in seconds
+                path: /
             logout:
                 path: app_logout
                 # where to redirect after logout
                 # target: app_any_route
+
+
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -45,6 +51,7 @@ security:
         - { path: ^/programs/[a-z-]+/edit, roles: ROLE_CONTRIBUTOR }
         - { path: ^/season/new, roles: ROLE_CONTRIBUTOR }
         - { path: ^/season/[-0-9]+/edit, roles: ROLE_CONTRIBUTOR }
+        - { path: ^/profil, roles: ROLE_USER }
 
     role_hierarchy:
         ROLE_CONTRIBUTOR: ROLE_USER
