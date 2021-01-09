@@ -79,6 +79,8 @@ class ProgramController extends AbstractController
 
             $mailer->send($email);
 
+            $this->addFlash('success', 'The new program has been created');
+
             return $this->redirectToRoute('program_index');
         }
 
@@ -175,6 +177,8 @@ class ProgramController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', 'The program has been edited');
 
             return $this->redirectToRoute('program_index');
         }
